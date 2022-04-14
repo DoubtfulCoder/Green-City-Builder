@@ -1,38 +1,51 @@
-.App {
+body {
+  background-image: url("./Photos/trees_background.png");
+}
+
+.starting-container {
+  width: 400px;
+  height: 400px;
+  
+  position: absolute;
+  top:0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  
+  margin: auto;
+  padding: 10px;
+  border-radius: 10%;
+
+  color: white; 
+  background-color: rgba(59, 6, 6, 0.336);
+  /* background-color: rgba(245, 236, 236, 0.336); */
+  /* background-color: rgb(129, 99, 99); */
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.intro-text {
+  font-size: 20px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+img {
+  float: left;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+.yearStatsModal {
+  background-color: rgba(59, 6, 6, 0.336);
+  width: 300px;
+  margin-left: 20px;
+  text-align: center;
+  padding: 10px 20px 10px 20px;
+  border-radius: 50px;
+}
+
+.yearStatsModal h1 {
+  text-decoration: underline;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.yearStatsModal p {
+  font-size: 20px;
+  color: white;
 }
