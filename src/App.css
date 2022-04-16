@@ -1,8 +1,13 @@
 body {
-  background-image: url("./Photos/trees_background.png");
+  /* background-image: url("./Photos/trees_background.png"); */
+  background: green;
 }
 
-.starting-container {
+img:hover {
+  cursor: pointer;
+}
+
+.introModal {
   width: 400px;
   height: 400px;
   
@@ -26,14 +31,54 @@ body {
 .intro-text {
   font-size: 20px;
 }
+/* 
+.introModal p {
+  margin-bottom: 30px;
+} */
 
-img {
-  float: left;
+.introModal img {
+  position: absolute;
+  left: 40px;
 }
+
+.invest-modal {
+  background-color: red;
+  width: 50%;
+  position: absolute;
+  /* right: 0; left: 0; top: 0; bottom: 0; */
+  bottom: 0;
+  margin: auto;
+  left: 20%;
+  /* display: flex; */
+  justify-content: center;
+  /* height: 20%; */
+  z-index: 2;
+}
+
+.invest-modal h1 {
+  text-align: center;
+  font-color: white;
+}
+
+.options {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.invest-option {
+  background-color: blue;
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid black;
+}
+
+/* .invest-modal invest */
 
 .yearStatsModal {
   background-color: rgba(59, 6, 6, 0.336);
   width: 300px;
+  margin-top: 20px;
   margin-left: 20px;
   text-align: center;
   padding: 10px 20px 10px 20px;
@@ -48,4 +93,98 @@ img {
 .yearStatsModal p {
   font-size: 20px;
   color: white;
+}
+
+#road1 {
+  /* margin-left: 50%; */
+  position: absolute;
+  top:0;
+  bottom: 0;
+  left: 240px;
+  right: 0;
+  margin: auto;
+  /* margin-top: 50%; */
+}
+
+#road2 {
+  position: absolute;
+  top:200px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  /* margin-top: 50%; */
+}
+
+#road3 {
+  position: absolute;
+  top:0;
+  bottom: 200px;
+  left: 0;
+  right: 0;
+  margin: auto;
+  /* margin-top: 50%; */
+}
+
+#road4 {
+  /* margin-left: 50%; */
+  position: absolute;
+  top:0;
+  bottom: 0;
+  left: 0;
+  right: 240px;
+  margin: auto;
+  /* margin-top: 50%; */
+}
+#road5 {
+  /* margin-left: 50%; */
+  position: absolute;
+  top:0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  /* margin-top: 50%; */
+}
+
+.car {
+  position: absolute;
+  margin: auto;
+  z-index: 1;
+  /* animation-name: example; */
+  animation-duration: 10s;
+  animation-iteration-count: infinite;
+}
+
+/* car1 animation */
+@keyframes car1 {
+  from { right: 400px; left: 0px; }
+  to { right: 0px; left: 400px; }
+}
+#car1 {
+  top: 30px;  bottom: 0;   left: 0;   right: 100px;
+  animation-name: car1;
+}
+
+/* car2 animation */
+@keyframes car2 {
+  from {left: 0px; }
+  to {left: 400px;}
+}
+#car2 {
+  animation-name: car2;
+}
+
+/* car3 animation */
+@keyframes car3 {
+  from {left: 0px; }
+  to {left: 400px;}
+}
+#car3 {
+  animation-name: car3;
+}
+
+.x-button {
+  position: absolute;
+  right: 10px; top: 10px;
 }
