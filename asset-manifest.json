@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/green-city-builder/static/css/main.6df6f571.css",
+    "main.js": "/green-city-builder/static/js/main.bda86bab.js",
+    "static/js/787.5150ee6e.chunk.js": "/green-city-builder/static/js/787.5150ee6e.chunk.js",
+    "static/media/trees.png": "/green-city-builder/static/media/trees.110acedad62c090b428e.png",
+    "static/media/car_yellow.png": "/green-city-builder/static/media/car_yellow.9ee673bf56d8ecaaeb18.png",
+    "static/media/bus.png": "/green-city-builder/static/media/bus.4b79a32acfcb6cec8c73.png",
+    "static/media/car_black.png": "/green-city-builder/static/media/car_black.bf04a0907ebfa87dc066.png",
+    "static/media/school.png": "/green-city-builder/static/media/school.50b5518fad77fb1cac8c.png",
+    "static/media/trash.png": "/green-city-builder/static/media/trash.1e3ae62c8e8c4bd0f895.png",
+    "static/media/car.png": "/green-city-builder/static/media/car.70d6b237a28899032166.png",
+    "index.html": "/green-city-builder/index.html",
+    "main.6df6f571.css.map": "/green-city-builder/static/css/main.6df6f571.css.map",
+    "main.bda86bab.js.map": "/green-city-builder/static/js/main.bda86bab.js.map",
+    "787.5150ee6e.chunk.js.map": "/green-city-builder/static/js/787.5150ee6e.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.6df6f571.css",
+    "static/js/main.bda86bab.js"
+  ]
+}
