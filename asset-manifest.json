@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/Green-City-Builder/static/css/main.6df6f571.css",
-    "main.js": "/Green-City-Builder/static/js/main.617bf296.js",
+    "main.css": "/Green-City-Builder/static/css/main.efea2332.css",
+    "main.js": "/Green-City-Builder/static/js/main.7ea6a0ad.js",
     "static/js/787.5150ee6e.chunk.js": "/Green-City-Builder/static/js/787.5150ee6e.chunk.js",
     "static/media/trees.png": "/Green-City-Builder/static/media/trees.110acedad62c090b428e.png",
     "static/media/car_yellow.png": "/Green-City-Builder/static/media/car_yellow.9ee673bf56d8ecaaeb18.png",
@@ -11,12 +11,12 @@
     "static/media/trash.png": "/Green-City-Builder/static/media/trash.1e3ae62c8e8c4bd0f895.png",
     "static/media/car.png": "/Green-City-Builder/static/media/car.70d6b237a28899032166.png",
     "index.html": "/Green-City-Builder/index.html",
-    "main.6df6f571.css.map": "/Green-City-Builder/static/css/main.6df6f571.css.map",
-    "main.617bf296.js.map": "/Green-City-Builder/static/js/main.617bf296.js.map",
+    "main.efea2332.css.map": "/Green-City-Builder/static/css/main.efea2332.css.map",
+    "main.7ea6a0ad.js.map": "/Green-City-Builder/static/js/main.7ea6a0ad.js.map",
     "787.5150ee6e.chunk.js.map": "/Green-City-Builder/static/js/787.5150ee6e.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.6df6f571.css",
-    "static/js/main.617bf296.js"
+    "static/css/main.efea2332.css",
+    "static/js/main.7ea6a0ad.js"
   ]
 }
