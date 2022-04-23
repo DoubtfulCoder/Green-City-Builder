@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/Green-City-Builder/static/css/main.95db61ae.css",
-    "main.js": "/Green-City-Builder/static/js/main.d154417d.js",
+    "main.js": "/Green-City-Builder/static/js/main.426e7b64.js",
     "static/js/787.5150ee6e.chunk.js": "/Green-City-Builder/static/js/787.5150ee6e.chunk.js",
     "static/media/water2.jpg": "/Green-City-Builder/static/media/water2.387e677f9cdb14dffbfe.jpg",
     "static/media/industry.png": "/Green-City-Builder/static/media/industry.652e40c9b572979ad64b.png",
@@ -15,11 +15,11 @@
     "static/media/car.png": "/Green-City-Builder/static/media/car.70d6b237a28899032166.png",
     "index.html": "/Green-City-Builder/index.html",
     "main.95db61ae.css.map": "/Green-City-Builder/static/css/main.95db61ae.css.map",
-    "main.d154417d.js.map": "/Green-City-Builder/static/js/main.d154417d.js.map",
+    "main.426e7b64.js.map": "/Green-City-Builder/static/js/main.426e7b64.js.map",
     "787.5150ee6e.chunk.js.map": "/Green-City-Builder/static/js/787.5150ee6e.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.95db61ae.css",
-    "static/js/main.d154417d.js"
+    "static/js/main.426e7b64.js"
   ]
 }
