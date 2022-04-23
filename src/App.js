@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { roadsInvest, carsInvest, trashInvest, schoolsInvest, homesInvest, electricityInvest, waterInvest, treesInvest, industryInvest } from './invest.js';
+import { roadsInvest, carsInvest, trashInvest, schoolsInvest, homesInvest, waterInvest, treesInvest, industryInvest } from './invest.js';
 
 class IntroModal extends React.Component {
   render() {
@@ -31,6 +31,11 @@ class IntroModal extends React.Component {
           width="20px"
         />
         <p>Sustainability: {this.props.sustainability}%</p>
+        <img 
+          src={require("./Photos/stats.png")} 
+          alt="Stats"
+          width="20px"
+        />
         <p>Unemployment: {this.props.unemployment}%</p>
         {/*<p>Annual CO2 emissions: {this.props.co2}</p>*/}
 
@@ -62,8 +67,23 @@ class YearStatsModal extends React.Component {
 class YearChanges extends React.Component {
   render() {
     return (
-      <div>
-        <h1>Losses</h1>
+      <div 
+        style={{visibility: this.props.visible ? 'visible' : 'hidden'}}
+        className="yearChanges"
+      >
+        <button onClick={() => this.props.onClick()}>X</button> {/* Close button */}
+        <h2>Yearly Losses</h2>
+        <p>Total: ${this.props.losses}</p>
+        <h3>Roads: ${this.props.roadLoss}</h3>
+            <p>Lower losses by investing in roads</p>
+        <h3>Schools: ${this.props.schoolLoss}</h3>
+            <p>Lower losses by investing in schools</p>
+        <h3>Trash: ${this.props.trashLoss}</h3>
+            <p>Lower losses by investing in trash</p>
+        <h3>Industry: ${this.props.industryLoss}</h3>
+            <p>Lower losses by investing in industry</p>
+        <h3>Natural Disasters: ${this.props.disasterLoss}</h3>
+            <p>Lower losses by increasing your overall sustainability</p>
       </div>
     );
   }
@@ -122,6 +142,7 @@ class Game extends React.Component {
       // Modal visibilities
       introModalVisible: true,
       statsModalVisibile: false,
+      yearChangesVisible: false,
 
       // Intro Modal state
       introTitle: 'Hello and Welcome to Green City Builder!',
@@ -135,7 +156,7 @@ class Game extends React.Component {
 
       // Game stats
       year: 1,
-      money: 200000 + Math.round(Math.random() * 200000), // random int [200k, 400k]
+      money: 200000 + Math.round(Math.random() * 200000), // random int [100k, 200k]
       unemployment: 4 + Math.round((Math.random() * 4) * 10) / 10, // random decimal [4, 8]
       approval: 45 + Math.round(Math.random() * 10), // random int [45%, 55%]
       sustainability: 15 + Math.round(Math.random() * 5), // random int [15%, 20%],
@@ -149,6 +170,10 @@ class Game extends React.Component {
       // Investments
       investments: [],
       events: [],
+
+      // Losses
+      roadLosses: 0, schoolLosses: 0, trashLosses: 0, 
+      industryLosses: 0, disasterLosses: 0, losses: 0,
     };
   }
 
@@ -163,14 +188,21 @@ class Game extends React.Component {
   /* Invests and moves to next year */
   nextYear() {
     // this.yearlyInvest();
+    this.setState({
+        yearChangesVisible: true,
+    });
     this.yearlyEvents();
     let losses = this.calculateLosses();
+    console.log("losses: " + losses);
     this.setState({
       year: this.state.year + 1,
       money: this.state.money 
           - Math.round(losses) 
-          + Math.round(Math.random() * 200000) + 200000,
-      unemployment: this.state.unemployment + Math.round(Math.random() * 5 - 3), // [-3%, +2%]
+          + Math.round(Math.random() * 150000) + 100000, // + [150k, 250k]
+      unemployment: Math.max(
+        this.state.unemployment + Math.round(Math.random() * 5 - 3), // [-3%, +2%]
+        3 // no lower than 3%
+      ),
       // Approval changes based on change in sustainability and unemployment
       approval: Math.round(this.state.approval + Math.round(Math.random() * 5 - 3)
               + ((this.state.sustainability - this.state.prevSust) / 2) 
@@ -203,18 +235,23 @@ class Game extends React.Component {
 
   /* Calculates losses for next year based on sustainability */
   calculateLosses() {
-    // Road losses - worse roads, more accidents [0, 50] million
-    let roadLoss = (100 - Math.random(this.state.roadSust)) / 100 * 50000;
-    // School losses - worse education, more loss [0, 20] million
-    let schoolLoss = (100 - Math.random(this.state.schoolSust)) / 100 * 20000;
-    // Trash losses - more waste, more disasters [0, 10] million
-    let trashLoss = (100 - Math.random(this.state.trashSust)) / 100 * 10000;
-    // Industry losses - worse industry, lower productivity [0, 40] million
-    let industryLoss = (100 - Math.random(this.state.industrySust)) / 100 * 40000;
-    // Natural disaster losses - lower overall sustainability, more disaster loss [0, 50] million
-    let disasterLoss = (100 - Math.random(this.state.sustainability)) / 100 * 50000;
+    // Road losses - worse roads, more accidents [0, 80] thousand
+    let roadLoss = (Math.random() * (100 - this.state.roadSust)) / 100 * 80000;
+    console.log("road loss: " + roadLoss);
+    // School losses - worse education, more loss [0, 40] thousand
+    let schoolLoss = (Math.random() * (100 - this.state.schoolSust)) / 100 * 40000;
+    // Trash losses - more waste, more disasters [0, 20] thousand
+    let trashLoss = (Math.random() * (100 - this.state.trashSust)) / 100 * 20000;
+    // Industry losses - worse industry, lower productivity [0, 80] thousand
+    let industryLoss = (Math.random() * (100 - this.state.industrySust)) / 100 * 80000;
+    // Natural disaster losses - lower overall sustainability, more disaster loss [0, 80] thousand
+    let disasterLoss = (Math.random() * (100 - this.state.sustainability)) / 100 * 80000;
     
     let totalYearlyLosses = roadLoss + schoolLoss + trashLoss + industryLoss + disasterLoss;
+    this.setState({
+        roadLosses: roadLoss, schoolLosses: schoolLoss, trashLosses: trashLoss,
+        industryLosses: industryLoss, disasterLosses: disasterLoss, losses: totalYearlyLosses
+    });
     return totalYearlyLosses;
   }
 
@@ -229,6 +266,7 @@ class Game extends React.Component {
   yearlyEvents() {
     for (let i = this.state.events.length - 1; i >= 0; i--) {
       let event = this.state.events[i];
+      console.log('Event ' + i + event);
 
       if (event.years === 0) { // Delete event that is over 
         // Cuts out finished event
@@ -241,6 +279,8 @@ class Game extends React.Component {
       
       // Change stats based on event
       else {
+        console.log('event amount' + event.cost.amount);
+        console.log('event gain' + event.moneyGain.amount);
         this.setState({
           money: this.state.money - event.cost.amount + event.moneyGain.amount,
           unemployment: this.state.unemployment - event.jobs.amount,
@@ -252,32 +292,36 @@ class Game extends React.Component {
       // Adjust specific sustainabilities for roads, cars, trash, and industry
       const type = event.type;
       if (type === 'roads') {
-        this.setState({roadSust: this.state.roadSust + event.sustainability * 2})
+        console.log('roadsust' + this.state.roadSust); // TODO: check console logs working
+        this.setState({roadSust: this.state.roadSust + event.sustainability.amount * 10})
       }
       else if (type === 'cars') {
-        this.setState({carSust: this.state.carSust + event.sustainability * 2})
+        console.log('cars'); // TODO: check console logs working
+        this.setState({carSust: this.state.carSust + event.sustainability.amount * 2})
       }
       else if (type === 'trash') {
-        this.setState({trashSust: this.state.trashSust + event.sustainability * 2})
+        console.log('trash'); // TODO: check console logs working
+        this.setState({trashSust: this.state.trashSust + event.sustainability.amount * 2})
       }
       else if (type === 'industry') {
-        this.setState({industrySust: this.state.industrySust + event.sustainability * 2})
+        console.log('industry'); // TODO: check console logs working
+        this.setState({industrySust: this.state.industrySust + event.sustainability.amount * 2})
       }
 
-      // Adjust event parameters 
+      // Adjust event parameters based on percChange
       let newEvent = event;
-      newEvent.cost.amount *= newEvent.years > 0 ? newEvent.cost * newEvent.cost.percChange : 0;
+      newEvent.cost.amount *= (newEvent.cost.years > 0 ? newEvent.cost.percChange : 0);
       newEvent.cost.years -= 1;
 
-      newEvent.jobs.amount *= newEvent.years > 0 ? newEvent.jobs * newEvent.jobs.percChange : 0;
+      newEvent.jobs.amount *= (newEvent.jobs.years > 0 ? newEvent.jobs.percChange : 0);
       newEvent.jobs.years -= 1;
       
-      newEvent.moneyGain.amount *= newEvent.years > 0 ? newEvent.moneyGain * newEvent.moneyGain.percChange : 0;
+      newEvent.moneyGain.amount *= (newEvent.moneyGain.years > 0 ? newEvent.moneyGain.percChange : 0);
       newEvent.moneyGain.years -= 1;
       
-      newEvent.sustainability.amount *= newEvent.years > 0 ? newEvent.sustainability * newEvent.sustainability.percChange : 0;
+      newEvent.sustainability.amount *= (newEvent.sustainability.years > 0 ? newEvent.sustainability.percChange : 0);
       newEvent.sustainability.years -= 1;
-      }
+    }
   }
 
   /* Adds events from an investment TODO: move this to addInvest */
@@ -328,18 +372,32 @@ class Game extends React.Component {
             <button 
               className='endYear'
               onClick={
-                () => { 
-                  if (this.state.year >= 30) {
+                () => {
+                  const tooHighYear = this.state.year >= 30;
+                  const tooLowMoney = this.state.money < 0;
+                  const tooLowApproval = this.state.approval < 35;
+                  if (tooHighYear || tooLowMoney || tooLowApproval) {
                     // console.log('game over');
+                    let status;
+                    if (tooHighYear) {
+                      status = 'Game Over! You ' + (this.state.sustainability > 80 ? 'won!' : 'lost.');
+                    }
+                    else if (tooLowMoney) {
+                      status = 'Game Over! Your money dropped too low';
+                    }
+                    else if (tooLowApproval) {
+                      status = 'Game Over! Your approval dropped too low.';
+                    }
                     this.setState({
                       gameOverModalVisible: true,
                       introModalVisible: true,
                       statsModalVisibile: false,
-                      introTitle: 'Game Over! You ' + (this.state.sustainability > 80 ? 'won!' : 'lost.'),
+                      yearChangesVisible: false,
+                      introTitle: status,                      
                       introText: 'These were your stats:',
                       introCloseButVisible: false,
                     })
-                  }
+                  }//'Game Over! You ' + (this.state.sustainability > 80 ? 'won!' : 'lost.'),
                   else {
                     this.nextYear();
                   }
@@ -349,6 +407,18 @@ class Game extends React.Component {
             End Year
             </button>
           }
+        />
+
+        <YearChanges 
+            visible={this.state.yearChangesVisible}
+            losses={Math.round(this.state.losses)}
+            roadLoss={Math.round(this.state.roadLosses)}
+            schoolLoss={Math.round(this.state.schoolLosses)}
+            trashLoss={Math.round(this.state.trashLosses)}
+            industryLoss={Math.round(this.state.industryLosses)}
+            disasterLoss={Math.round(this.state.disasterLosses)}
+            
+            onClick={() => this.setState({yearChangesVisible: false})}
         />
 
         {/* Roads Modal */}
@@ -417,7 +487,7 @@ class Game extends React.Component {
           visible={this.state.trashVisible}
           closeButton={() => this.setState({trashVisible: false})}
           benefits="With landfills quickly filling up and a low rate of recycling, investing in waste is very important."
-          drawbacks="Expensive"
+          drawbacks="Many can lose jobs by switching to recycling."
           
           options={[
             <InvestOption 
@@ -441,6 +511,108 @@ class Game extends React.Component {
           ]}        
         />
 
+        {/* Schools Modal */}
+        <InvestModal 
+          thing="Schools" 
+          visible={this.state.schoolVisible}
+          closeButton={() => this.setState({schoolVisible: false})}
+          benefits=
+            {'Investing in schools will create a more educated and trained workforce. An educated population can be more productive in a global economy.'}
+          drawbacks="Investing in education is expensive."
+
+          options={[
+            <InvestOption 
+              description={'Invest $30000'}
+              onClick={() => {
+                  this.addEvents(
+                    schoolsInvest(30000, 5)
+                  );
+                  this.setState({schoolVisible: false}); // close modal
+                }
+              }
+            />,
+            <InvestOption 
+              description={'Invest $50000'}
+              onClick={() => {
+                  this.addEvents(
+                    schoolsInvest(50000, 5)
+                  );
+                  this.setState({schoolVisible: false}); // close modal
+                }
+              }
+            />,
+          ]}        
+        />
+
+        {/* Home Modal */}
+        <InvestModal 
+          thing="Homes" 
+          visible={this.state.homesVisible}
+          closeButton={() => this.setState({homesVisible: false})}
+          benefits=
+            {`Homes use many non-sustainable fuel sources. Help the environment by
+              switching to non-sustainable fuel sources.
+            `}
+          drawbacks="Alternative fuel sources like solar and wind are still not 100% reliable and are very expensive."
+
+          options={[
+            <InvestOption 
+              description={'Invest $40000'}
+              onClick={() => {
+                  this.addEvents(
+                    homesInvest(40000, 5)
+                  );
+                  this.setState({homesVisible: false}); // close modal
+                }
+              }
+            />,
+            <InvestOption 
+              description={'Invest $80000'}
+              onClick={() => {
+                  this.addEvents(
+                    homesInvest(80000, 5)
+                  );
+                  this.setState({homesVisible: false}); // close modal
+                }
+              }
+            />,
+          ]}        
+        />
+
+        {/* Water Modal */}
+        <InvestModal 
+          thing="Water" 
+          visible={this.state.waterVisible}
+          closeButton={() => this.setState({waterVisible: false})}
+          benefits=
+            {`Unclean water can be very dangerous and causes many diseases.
+            `}
+          drawbacks="Cleaning water sources is difficult and very expensive."
+
+          options={[
+            <InvestOption 
+              description={'Invest $40000'}
+              onClick={() => {
+                  this.addEvents(
+                    waterInvest(40000, 5)
+                  );
+                  this.setState({waterVisible: false}); // close modal
+                }
+              }
+            />,
+            <InvestOption 
+              description={'Invest $70000'}
+              onClick={() => {
+                  this.addEvents(
+                    waterInvest(70000, 5)
+                  );
+                  this.setState({waterVisible: false}); // close modal
+                }
+              }
+            />
+          ]}        
+        />
+
         {/* Trees Modal */}
         <InvestModal 
           thing="Trees" 
@@ -451,60 +623,22 @@ class Game extends React.Component {
 
           options={[
             <InvestOption 
-              description={'Invest $5000'}
+              description={'Invest $30000'}
               onClick={() => {
                   this.addEvents(
-                    treesInvest(5000, 5)
+                    treesInvest(30000, 5)
                   );
                   this.setState({treesVisible: false}); // close modal
                 }
               }
-            />
-          ]}        
-        />
-
-        {/* Schools Modal */}
-        <InvestModal 
-          thing="Schools" 
-          visible={this.state.schoolVisible}
-          closeButton={() => this.setState({schoolVisible: false})}
-          benefits=
-            {''}
-          drawbacks="Maintaining and building infrastructure is very expensive"
-
-          options={[
+            />,
             <InvestOption 
-              description={'Invest $5000'}
+              description={'Invest $50000'}
               onClick={() => {
                   this.addEvents(
-                    schoolsInvest(5000, 5)
+                    treesInvest(50000, 5)
                   );
-                  this.setState({schoolsVisible: false}); // close modal
-                }
-              }
-            />
-          ]}        
-        />
-
-        {/* Home Modal */}
-        <InvestModal 
-          thing="Homes" 
-          visible={this.state.homesVisible}
-          closeButton={() => this.setState({homesVisible: false})}
-          benefits=
-            {`Poor infrastructure can reduce economic productivity. 
-              Investing in infrastructure can create many temporary jobs.
-            `}
-          drawbacks="Maintaining and building infrastructure is very expensive"
-
-          options={[
-            <InvestOption 
-              description={'Invest $5000'}
-              onClick={() => {
-                  this.addEvents(
-                    homesInvest(5000, 5)
-                  );
-                  this.setState({homesVisible: false}); // close modal
+                  this.setState({treesVisible: false}); // close modal
                 }
               }
             />
@@ -517,44 +651,29 @@ class Game extends React.Component {
           visible={this.state.industryVisible}
           closeButton={() => this.setState({industryVisible: false})}
           benefits=
-            {`Poor infrastructure can reduce economic productivity. 
-              Investing in infrastructure can create many temporary jobs.
+            {`Industry is the #2 emmitter of CO_2 emissions. Maintaining buildings
+              is crucial for a sustainable city. 
             `}
-          drawbacks="Maintaining and building infrastructure is very expensive"
+          drawbacks="Many can lose their jobs in a switch to alternative fuel sources."
 
           options={[
             <InvestOption 
-              description={'Invest $5000'}
+              description={'Invest $50000'}
               onClick={() => {
                   this.addEvents(
-                    industryInvest(5000, 5)
+                    industryInvest(50000, 5)
                   );
                   this.setState({industryVisible: false}); // close modal
                 }
               }
-            />
-          ]}        
-        />
-
-        {/* Water Modal */}
-        <InvestModal 
-          thing="Water" 
-          visible={this.state.waterVisible}
-          closeButton={() => this.setState({waterVisible: false})}
-          benefits=
-            {`Poor infrastructure can reduce economic productivity. 
-              Investing in infrastructure can create many temporary jobs.
-            `}
-          drawbacks="Maintaining and building infrastructure is very expensive"
-
-          options={[
+            />,
             <InvestOption 
-              description={'Invest $5000'}
+              description={'Invest $100000'}
               onClick={() => {
                   this.addEvents(
-                    waterInvest(5000, 5)
+                    industryInvest(100000, 5)
                   );
-                  this.setState({waterVisible: false}); // close modal
+                  this.setState({industryVisible: false}); // close modal
                 }
               }
             />
@@ -699,12 +818,23 @@ class Game extends React.Component {
             })
           }}
         />
+        <img 
+          src={require("./Photos/trees.png")}
+          alt="tree"
+          id='tree2'
+          style={{visibility: this.state.introModalVisible ? 'hidden' : 'visible'}}
+          onClick={() => {
+            this.setState({
+              treesVisible: !this.state.treesVisible
+            })
+          }}
+        />
 
         {/* School */}
         <img 
           src={require("./Photos/school.png")}
           alt="school"
-          id='school'
+          id='school1'
           width='100px'
           style={{visibility: this.state.introModalVisible ? 'hidden' : 'visible'}}
           onClick={() => {
@@ -718,7 +848,7 @@ class Game extends React.Component {
         <img 
           src={require("./Photos/bus.png")}
           alt="bus"
-          id='bus'
+          id='bus1'
           width='150px'
           style={{visibility: this.state.introModalVisible ? 'hidden' : 'visible'}}
           onClick={() => {
@@ -730,9 +860,21 @@ class Game extends React.Component {
         
         {/* Homes */}
         <img 
-          src={require("./Photos/home.gif")}
+          src={require("./Photos/home.png")}
           alt="home"
-          id='home'
+          id='home1'
+          width='100px'
+          style={{visibility: this.state.introModalVisible ? 'hidden' : 'visible'}}
+          onClick={() => {
+            this.setState({
+              homesVisible: !this.state.homesVisible
+            })
+          }}
+        />
+        <img 
+          src={require("./Photos/home.png")}
+          alt="home"
+          id='home2'
           width='100px'
           style={{visibility: this.state.introModalVisible ? 'hidden' : 'visible'}}
           onClick={() => {
@@ -746,7 +888,19 @@ class Game extends React.Component {
         <img 
           src={require("./Photos/trash.png")}
           alt="trash"
-          id='trash'
+          id='trash1'
+          width='50px'
+          style={{visibility: this.state.introModalVisible ? 'hidden' : 'visible'}}
+          onClick={() => {
+            this.setState({
+              trashVisible: !this.state.trashVisible
+            })
+          }}
+        />
+        <img 
+          src={require("./Photos/trash.png")}
+          alt="trash"
+          id='trash2'
           width='50px'
           style={{visibility: this.state.introModalVisible ? 'hidden' : 'visible'}}
           onClick={() => {
@@ -760,8 +914,20 @@ class Game extends React.Component {
         <img 
           src={require("./Photos/industry.png")}
           alt="industry"
-          id='industry'
-          width='50px'
+          id='industry1'
+          width='200px'
+          style={{visibility: this.state.introModalVisible ? 'hidden' : 'visible'}}
+          onClick={() => {
+            this.setState({
+              industryVisible: !this.state.industryVisible
+            })
+          }}
+        />
+        <img 
+          src={require("./Photos/industry.png")}
+          alt="industry"
+          id='industry2'
+          width='200px'
           style={{visibility: this.state.introModalVisible ? 'hidden' : 'visible'}}
           onClick={() => {
             this.setState({
